@@ -15,7 +15,7 @@ const app = express();
 //morgan for loging
 app.use(morgan('combined'));
 app.use(morgan('combined',{
-  stream: fs.createWriteStream('./access.log', {flags: 'a'})
+  stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
 }));
 
 //bodyparser
@@ -55,8 +55,8 @@ app.use((req, res, next) => {
 mongoose.connect(process.env.URI.toString())
 .then(() => {
     console.log('mongo db connected');
-    app.listen(8080);
-    console.log('listende in port 8080');
+    app.listen(process.env.PORT);
+    console.log(`listining in ${process.env.PORT}`);
 })
 .catch(err => {
     console.log(err);
