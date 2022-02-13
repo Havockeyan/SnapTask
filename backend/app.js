@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const fs = require('fs');
+const dotenv = require('dotenv').config();
 
 //normal_import
 const userRoute = require('./router/userRoute');
@@ -51,7 +52,7 @@ app.use((req, res, next) => {
 
 
 //connecting mongodb
-mongoose.connect("mongodb+srv://karthikeyan:alzU6vFT3N0xVCgX@cluster0.9hufx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect(process.env.URI.toString())
 .then(() => {
     console.log('mongo db connected');
     app.listen(8080);

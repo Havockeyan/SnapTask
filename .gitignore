@@ -2,3 +2,4 @@
 /backend/node_modules
 todo.txt
 /backend/access.log
+/backend/.env
