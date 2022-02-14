@@ -1,0 +1,32 @@
+#main{
+    background-color: rgb(197, 241, 253);
+    position: relative;
+    margin-left: 18%;
+    padding: 10px;
+    margin-right: 20%;
+    margin-top: 5%;
+    box-shadow: 5px 4px 15px #949393;
+}
+#char{
+    margin-left: 45%;
+    font-weight: bold;
+}
+#char1{
+    font-weight: bold;
+}
+
+@media screen and (max-width: 570px) {
+   #main{
+       max-width: 100%;
+       left: 0;
+       margin-left: 0;
+       margin-right: 0;
+   }
+   #para{
+       padding-right: -10%;
+       margin-left: -10%;
+   }
+   #head{
+       text-align: center;
+   }
+  }

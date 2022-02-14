@@ -1,12 +1,16 @@
 import './App.css';
+import { useNavigate, Routes, Route } from 'react-router-dom';
+import Login from './Auth/Ulogin';
 import Signup from './Auth/signup';
 
-function App() {
-  console.log('is it working');
+
+function App() {  
+  const navigate = useNavigate();
   return (
-    <div className="App">
-    <Signup/>
-    </div>
+    <Routes>
+      <Route path='/' element={<Login nav={navigate} />} />
+      <Route path='/signup' element={<Signup />} />
+    </Routes>
   );
 }
 
