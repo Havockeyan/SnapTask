@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Barlow+Condensed:ital,wght@0,400;1,300;1,700&family=Fira+Sans&display=swap');
+.head{
+    background-color:#303841;
+    text-align: center;
+    padding: 2px;
+    box-shadow: 2px 5px 4px 1px rgb(105, 103, 103);
+}
+.texthead{
+    font-weight: 400;
+    color: #f6c90E;
+    /* text-shadow: 0 0 2px #dbdbd9, 0 0 2px #ffcc00; */
+}
+*{
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: bold;
+    margin: 0.1px;
+    padding: 1px; 
+}
+.form{
+    background-color: #f3f1f1;
+    color: #f6c90E;
+    font-size: 19px;
+    padding: 15px;
+    box-shadow: 5px 7px 15px #a3a1a1;
+    position: relative;
+   
+}
+.bttn{
+    font-size: 18px;
+    font-weight: bold;
+}
+.inputclr
+{
+    background-color: rgb(255, 255, 255);
+    border: .05em solid rgb(85, 85, 85);
+    font-size: 15px;
+}
+hr{
+   color: rgb(0, 0, 0);
+}
+.order-first{
+    background-color: #303841;
+    height: 10%;
+    position: relative;
+    margin-top: 20%;
+    margin-right: 5%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 7s ease infinite;
+    box-shadow: 5px 4px 15px #666666;
+    border-radius: 6px;
+    padding: 20px;
+}
+.head2{
+    color: rgb(253, 253, 253);
+}
+.para{
+    color: #f6c90E;
+    font-size: 25px;
+    font-weight: bold;
+}
+.head3{
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    opacity: .8;
+}
+
+#img-preview{
+   position: relative;
+   left: 35%;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@media screen and (max-width: 765px) {
+    .container{
+        margin-top: -20%;
+    }
+    .order-first{
+        box-shadow: 0px 0px 0px;
+    }
+    #img-preview{
+       max-width: 50%;
+        margin-left: -20%;
+    }
+  }
