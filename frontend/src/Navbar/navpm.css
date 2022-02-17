@@ -1,0 +1,10 @@
+#mainnav{
+    box-shadow: 2px 4px 10px #dad8d8;
+}
+.span{
+    color: orangered;
+    font-size: 23px;
+}
+.nav-link:hover{
+    border-bottom: 2px solid orangered;
+}

@@ -5,7 +5,7 @@ class Login extends React.Component{
     render(){    
         return(
             <div>
-                <h1 id="head" style={{backgroundColor:"#4a4a4a",color:"#ebd643",padding:"5px"}}>Login Page</h1>
+                <h2 id="head" style={{backgroundColor:"#4a4a4a",color:"#ebd643",padding:"5px"}}>Login Page</h2>
                 <div id="main">
                 <div className="mb-4 row">
     <label for="staticEmail" className="col-sm-2 col-form-label">Email</label>
@@ -38,7 +38,9 @@ class Login extends React.Component{
     Project Manager
   </label>
 </div>
-<button id="char" type="button" class="btn btn-outline-primary btn-sm">Login</button>
+<button id="char" type="button" class="btn btn-outline-primary btn-sm" onClick={()=>{
+  this.props.nav('/home_m')
+}}>Login</button>
 <br/>
 <hr></hr>
 <br/>

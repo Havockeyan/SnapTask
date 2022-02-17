@@ -130,6 +130,16 @@ function Signup(props) {
       </div>
     </div>
   </div>
+  <div class="col-md-8 position-relative">
+    <label for="validationTooltip05" class="form-label">E-mail</label>
+    <input type="text" class="form-control inputclr" id="validationTooltip05" required/>
+    <div class="invalid-tooltip">
+      Please provide a valid Email.
+    </div>
+  <div class="col-md-8 position-relative">
+    <label for="validationTooltip03" class="form-label">Password</label>
+    <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
+   </div>
   <div className="col-md-8 position-relative">
     <label for="validationTooltip03" className="form-label" id='password'>Password</label>
     <input type="text" name='password' className="form-control inputclr" id="validationTooltip03" required/>
@@ -138,12 +148,6 @@ function Signup(props) {
     <label for="validationTooltip03" className="form-label" id='confirm'>Confirm Password</label>
     <input type="text" name='confirm' className="form-control inputclr" id="validationTooltip03" required/>
   </div>
-  <div className="col-md-8 position-relative">
-    <label for="validationTooltip05" className="form-label" id='email'>E-mail</label>
-    <input type="text" name='email' className="form-control inputclr" id="validationTooltip05" required/>
-    <div className="invalid-tooltip">
-      Please provide a valid Email.
-    </div>
     <div className="col-md-12 position-relative">
     <label for="validationTooltip04" className="form-label">Designation</label>
     <select name='Designation' className="form-select inputclr" id="validationTooltip04" required>

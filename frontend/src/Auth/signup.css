@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Barlow+Condensed:ital,wght@0,400;1,300;1,700&family=Fira+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Barlow+Condensed:ital,wght@0,400;1,300;1,700&family=Fira+Sans&family=Overlock:ital,wght@0,700;1,400&family=Reem+Kufi&display=swap');
 .head{
     background-color:#303841;
     text-align: center;
@@ -8,10 +8,9 @@
 .texthead{
     font-weight: 400;
     color: #f6c90E;
-    /* text-shadow: 0 0 2px #dbdbd9, 0 0 2px #ffcc00; */
 }
 *{
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Reem Kufi', sans-serif;
     font-weight: bold;
     margin: 0.1px;
     padding: 1px; 
