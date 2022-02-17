@@ -95,6 +95,12 @@ function Signup() {
     </div>
   </div>
   <div class="col-md-8 position-relative">
+    <label for="validationTooltip05" class="form-label">E-mail</label>
+    <input type="text" class="form-control inputclr" id="validationTooltip05" required/>
+    <div class="invalid-tooltip">
+      Please provide a valid Email.
+    </div>
+  <div class="col-md-8 position-relative">
     <label for="validationTooltip03" class="form-label">Password</label>
     <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
   </div>
@@ -102,12 +108,7 @@ function Signup() {
     <label for="validationTooltip03" class="form-label">Confirm Password</label>
     <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
   </div>
-  <div class="col-md-8 position-relative">
-    <label for="validationTooltip05" class="form-label">E-mail</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip05" required/>
-    <div class="invalid-tooltip">
-      Please provide a valid Email.
-    </div>
+  
     <div class="col-md-12 position-relative">
     <label for="validationTooltip04" class="form-label">Designation</label>
     <select class="form-select inputclr" id="validationTooltip04" required>
