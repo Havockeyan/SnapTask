@@ -15,7 +15,7 @@ function App() {
     <Routes>
       //Authentication
       <Route path='/' element={<Login nav={navigate} />} />
-      <Route path='/signup' element={<Signup />} />
+      <Route path='/signup' element={<Signup nav={navigate} />} />
 
       //Project Manager Routes
       <Route path='/home_m' element={<Home_m />} />
@@ -24,7 +24,7 @@ function App() {
       <Route path='/history' element={<Histroy_m/>} />
       <Route path='/about' element={<About />} />
 
-      
+
     </Routes>
   );
 }

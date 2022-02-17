@@ -4,7 +4,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const fs = require('fs');
-const dotenv = require('dotenv').config();
+const path = require('path');
+const multer = require('multer');
+const nanoid = require('nanoid').nanoid;
+const dotenv = require('dotenv');
+dotenv.config();
 
 //normal_import
 const userRoute = require('./router/userRoute');
@@ -21,6 +25,37 @@ app.use(morgan('combined',{
 //bodyparser
 app.use(bodyParser.json());
 
+//file storage for multer
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      if(file.originalname){
+        cb(null, 'images');
+      }
+  },
+  filename: (req, file, cb) => {
+    const fileName = nanoid() + '-' + file.originalname;
+    cb(null, fileName);
+  }
+});
+
+//file filter
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'application/pdf'
+  ) {
+    console.log('file found');
+    cb(null, true);
+  } else {
+    console.log('file not found');
+    cb(null, false);
+  }
+}
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 //cors
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -31,6 +66,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   });
+
+  app.use(multer({fileFilter: fileFilter, storage: fileStorage}).single('image'));
 
   //user routes
   app.use('/user', userRoute);

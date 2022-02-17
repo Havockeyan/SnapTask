@@ -1,21 +1,39 @@
 const userModel = require('./../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
+
+// exports.isAlreadyaUser = (req, res, next) => {
+//     var {userName } = req.body;
+
+//     userModel.find({userName: userName})
+//     .then()
+// }
 
 exports.signup = (req, res, next) => {
-    var {name, email, password, type, phoneNo, imgurl} = req.body;
+    var {firstName, lastName, userName, email, password, Designation, gender} = req.body;
+    var imgurl = req.file.filename;
+    console.log(req.body.firstName);
 
-    //TO do change imageurl after connecting to frontend.
+    //validating the inputs
+    const errors = validationResult(req);
+    if(!errors.isEmpty){
+        const error = new Error('Validation Error');
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error;
+    }
 
     bcrypt.hash(password, 18)
     .then(hashedPassword => {
         const user = new userModel({
-            name: name,
+            firstName: firstName,
+            lastName: lastName,
+            userName: userName,
             email: email,
             password: hashedPassword,
-            type: type,
-            phoneNo, phoneNo,
+            Designation: Designation,
+            gender: gender,
             imgurl: imgurl
         });
         return user.save();

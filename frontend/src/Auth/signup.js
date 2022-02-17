@@ -2,7 +2,7 @@ import React from 'react';
 import './signup.css'
 import { useState } from "react";
 
-function Signup() {
+function Signup(props) {
     const [selectedImage, setSelectedImage] = useState();
     const imageChange = (e) => {
       if (e.target.files && e.target.files.length > 0) {
@@ -33,6 +33,42 @@ function Signup() {
         fontSize:"15px"
       },
     };
+
+    const signUpHandler = () => {
+      //todo signup stuffs.
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+      formData.append('firstName', document.getElementsByName('firstName')[0].value);
+      formData.append('lastName', document.getElementsByName('lastName')[0].value);
+      formData.append('userName', document.getElementsByName('userName')[0].value);
+      formData.append('password',document.getElementsByName('password')[0].value);
+      formData.append('email', document.getElementsByName('email')[0].value);
+      formData.append('Designation',document.getElementsByName('Designation')[0].value);
+      formData.append('gender', document.getElementsByName('gender')[0].value);
+
+    //   for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]); 
+    // }
+
+      fetch('http://localhost:8080/user/signup',{
+        method: 'POST',
+        body: formData
+      })
+      .then(response => { return response.json()})
+      .then(result => {
+        console.log(result);
+        if(result.message === "Validation Error"){
+          // alert('Enter a valid userName, password')
+          console.log(result.data);
+        }else{
+        props.nav('/');
+        }
+      });
+    };
+
+    // const onChangeHandler = (e, filed) => {
+    //     console.log(e.target.value);
+    // };
     
     const removeSelectedImage = () => {
       setSelectedImage();
@@ -42,11 +78,11 @@ function Signup() {
            <div className='head'><h1 className='texthead'>SIGNUP FORM</h1></div>
            <br/>
         
-<div class="container">
-  <div class="row">
-    <div class="col order-last colum">
+<div className="container">
+  <div className="row">
+    <div className="col order-last colum">
     <div className='form'>
-           <form class="row g-1 col-md-12 needs-validation" novalidate>
+           <form className="row g-1 col-md-12 needs-validation" onSubmit={(e) => {e.preventDefault()}} novalidate>
              <label>Upload Your Profile</label>
            <div style={styles.container}>
         <input
@@ -69,27 +105,27 @@ function Signup() {
         )}
       </div>
       <br/>
-  <div class="col-md-5 position-relative">
-    <label for="validationTooltip01" class="form-label">First name</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip01" placeholder='Firstname' required/>
-    <div class="valid-tooltip">
+  <div className="col-md-5 position-relative">
+    <label for="validationTooltip01" className="form-label" id='firstName'>First name</label>
+    <input type="text" name='firstName' className="form-control inputclr" id="validationTooltip01" placeholder='Firstname' required/>
+    <div className="valid-tooltip">
       Looks good!
     </div>
   </div>
-  <div class="col-md-5 position-relative">
-    <label for="validationTooltip02" class="form-label">Last name</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip02" placeholder='Lastname' required/>
-    <div class="valid-tooltip">
+  <div className="col-md-5 position-relative">
+    <label for="validationTooltip02" className="form-label" id='lastName'>Last name</label>
+    <input type="text" name='lastName' className="form-control inputclr" id="validationTooltip02" placeholder='Lastname' required/>
+    <div className="valid-tooltip">
       Looks good!
     </div>
   </div>
   
-  <div class="col-md-8 position-relative">
-    <label for="validationTooltipUsername" class="form-label">Username</label>
-    <div class="input-group has-validation">
-      <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-      <input type="text" class="form-control inputclr" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required/>
-      <div class="invalid-tooltip">
+  <div className="col-md-8 position-relative">
+    <label for="validationTooltipUsername" className="form-label" id='userName'>Username</label>
+    <div className="input-group has-validation">
+      <span className="input-group-text" id="validationTooltipUsernamePrepend">@</span>
+      <input type="text" name='userName' className="form-control inputclr" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required/>
+      <div className="invalid-tooltip">
         Please choose a unique and valid username.
       </div>
     </div>
@@ -103,40 +139,43 @@ function Signup() {
   <div class="col-md-8 position-relative">
     <label for="validationTooltip03" class="form-label">Password</label>
     <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
+   </div>
+  <div className="col-md-8 position-relative">
+    <label for="validationTooltip03" className="form-label" id='password'>Password</label>
+    <input type="text" name='password' className="form-control inputclr" id="validationTooltip03" required/>
   </div>
-  <div class="col-md-8 position-relative">
-    <label for="validationTooltip03" class="form-label">Confirm Password</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
+  <div className="col-md-8 position-relative">
+    <label for="validationTooltip03" className="form-label" id='confirm'>Confirm Password</label>
+    <input type="text" name='confirm' className="form-control inputclr" id="validationTooltip03" required/>
   </div>
-  
-    <div class="col-md-12 position-relative">
-    <label for="validationTooltip04" class="form-label">Designation</label>
-    <select class="form-select inputclr" id="validationTooltip04" required>
+    <div className="col-md-12 position-relative">
+    <label for="validationTooltip04" className="form-label">Designation</label>
+    <select name='Designation' className="form-select inputclr" id="validationTooltip04" required>
       <option selected disabled value="">Select your Designation</option>
-      <option>Project Manager</option>
-      <option>Project Lead</option>
-      <option>Team Member</option>
+      <option value="Project Manager">Project Manager</option>
+      <option value="Project Lead">Project Lead</option>
+      <option value="Team Member">Team Member</option>
     </select>
   </div>
-  <div class="col-md-12 position-relative">
-    <label for="validationTooltip04" class="form-label">Gender</label>
-    <select class="form-select inputclr" id="validationTooltip04" required>
+  <div className="col-md-12 position-relative">
+    <label for="validationTooltip04" className="form-label">Gender</label>
+    <select name='gender' className="form-select inputclr" id="validationTooltip04" required>
       <option selected disabled value="">Choose Your gender</option>
-      <option>Male</option>
-      <option>Female</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
     </select>
   </div>
   </div>
   <div>
   <hr className='line'></hr>
   </div>
-<div class="d-grid gap-2 col-6 mx-auto">
-  <button class="btn btn-outline-warning bttn" type="submit">Signup</button>
+<div className="d-grid gap-2 col-6 mx-auto">
+  <button className="btn btn-outline-warning bttn" type='button' onClick={signUpHandler}>Signup</button>
 </div>
 </form>
        </div>
     </div>
-    <div class="col-md-6 order-first">
+    <div className="col-md-6 order-first">
      <h1 className='head2'> WELCOME TO </h1>
      <p className='para'>SNAP TASK</p>
      <h2 className='head3'>Ask for what you want and be prepared to get it</h2>
