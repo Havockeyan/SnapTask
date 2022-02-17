@@ -9,7 +9,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Login nav={navigate} />} />
-      <Route path='/signup' element={<Signup />} />
+      <Route path='/signup' element={<Signup nav={navigate} />} />
     </Routes>
   );
 }
