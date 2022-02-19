@@ -1,12 +1,16 @@
 import React from 'react';
 import './signup.css'
 import { useState } from "react";
+import validate from './validate';
 
 function Signup(props) {
-    const [selectedImage, setSelectedImage] = useState();
+    const [{selectedImage, loading}, setState] = useState({
+      selectedImage: "",
+      loading: false
+    });
     const imageChange = (e) => {
       if (e.target.files && e.target.files.length > 0) {
-        setSelectedImage(e.target.files[0]);
+        setState({selectedImage: e.target.files[0]});
       }
     };
     const styles = {
@@ -34,36 +38,62 @@ function Signup(props) {
       },
     };
 
-    const signUpHandler = () => {
+    const signUpHandler = async () => {
+      setState({loading: true});
       //todo signup stuffs.
       const formData = new FormData();
       formData.append('image', selectedImage);
-      formData.append('firstName', document.getElementsByName('firstName')[0].value);
-      formData.append('lastName', document.getElementsByName('lastName')[0].value);
-      formData.append('userName', document.getElementsByName('userName')[0].value);
-      formData.append('password',document.getElementsByName('password')[0].value);
-      formData.append('email', document.getElementsByName('email')[0].value);
-      formData.append('Designation',document.getElementsByName('Designation')[0].value);
-      formData.append('gender', document.getElementsByName('gender')[0].value);
+      formData.append('firstName', document.getElementById('firstName').value);
+      formData.append('lastName', document.getElementById('lastName').value);
+      formData.append('userName', document.getElementById('userName').value);
+      formData.append('password',document.getElementById('password').value);
+      formData.append('email', document.getElementById('email').value);
+      formData.append('Designation',document.getElementById('Designation').value);
+      formData.append('gender', document.getElementById('gender').value);
 
     //   for (var pair of formData.entries()) {
-    //     console.log(pair[0]+ ', ' + pair[1]); 
+    //     console.log(pair+ ', ' + pair[1]); 
     // }
 
-      fetch('http://localhost:8080/user/signup',{
+      //check if it is already exists
+      fetch('http://localhost:8080/user/isUser',{
+        method: 'POST',
+        body: JSON.stringify({
+            userName: formData.get('userName'),
+            email: formData.get('email')
+        })
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(result => {
+        if(result.hasUser === true){
+            alert('User with this username already exists');
+            return false;
+        }
+        if(result.hasEmail === true){
+          alert('User with this email already exists');
+          return false;
+      }
+        return true;
+    })
+    .then((goAhead) => {
+        if(goAhead){
+          
+      if(validate(formData)){
+        fetch('http://localhost:8080/user/signup',{
         method: 'POST',
         body: formData
       })
       .then(response => { return response.json()})
       .then(result => {
         console.log(result);
-        if(result.message === "Validation Error"){
-          // alert('Enter a valid userName, password')
-          console.log(result.data);
-        }else{
         props.nav('/');
-        }
       });
+      }
+        }
+    })
+      
     };
 
     // const onChangeHandler = (e, filed) => {
@@ -71,10 +101,11 @@ function Signup(props) {
     // };
     
     const removeSelectedImage = () => {
-      setSelectedImage();
+      setState({selectedImage: ""});
     };
   return(
-      <div>
+    loading ? (<div>loading</div>) :
+      (<div>
            <div className='head'><h1 className='texthead'>SIGNUP FORM</h1></div>
            <br/>
         
@@ -106,25 +137,25 @@ function Signup(props) {
       </div>
       <br/>
   <div className="col-md-5 position-relative">
-    <label for="validationTooltip01" className="form-label" id='firstName'>First name</label>
-    <input type="text" name='firstName' className="form-control inputclr" id="validationTooltip01" placeholder='Firstname' required/>
+    <label for="validationTooltip01" className="form-label">First name</label>
+    <input type="text" id='firstName' className="form-control inputclr" placeholder='Firstname' required/>
     <div className="valid-tooltip">
       Looks good!
     </div>
   </div>
   <div className="col-md-5 position-relative">
-    <label for="validationTooltip02" className="form-label" id='lastName'>Last name</label>
-    <input type="text" name='lastName' className="form-control inputclr" id="validationTooltip02" placeholder='Lastname' required/>
+    <label for="validationTooltip02" className="form-label">Last name</label>
+    <input type="text" id='lastName' className="form-control inputclr" placeholder='Lastname' required/>
     <div className="valid-tooltip">
       Looks good!
     </div>
   </div>
   
   <div className="col-md-8 position-relative">
-    <label for="validationTooltipUsername" className="form-label" id='userName'>Username</label>
+    <label for="validationTooltipUsername" className="form-label">Username</label>
     <div className="input-group has-validation">
       <span className="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-      <input type="text" name='userName' className="form-control inputclr" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required/>
+      <input type="text" id='userName' className="form-control inputclr" aria-describedby="validationTooltipUsernamePrepend" required/>
       <div className="invalid-tooltip">
         Please choose a unique and valid username.
       </div>
@@ -132,25 +163,21 @@ function Signup(props) {
   </div>
   <div class="col-md-8 position-relative">
     <label for="validationTooltip05" class="form-label">E-mail</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip05" required/>
+    <input type="text" id='email' class="form-control inputclr" required/>
     <div class="invalid-tooltip">
       Please provide a valid Email.
     </div>
-  <div class="col-md-8 position-relative">
-    <label for="validationTooltip03" class="form-label">Password</label>
-    <input type="text" class="form-control inputclr" id="validationTooltip03" required/>
-   </div>
   <div className="col-md-8 position-relative">
-    <label for="validationTooltip03" className="form-label" id='password'>Password</label>
-    <input type="text" name='password' className="form-control inputclr" id="validationTooltip03" required/>
+    <label for="validationTooltip03" className="form-label">Password</label>
+    <input type="text" id='password' className="form-control inputclr" required/>
   </div>
   <div className="col-md-8 position-relative">
-    <label for="validationTooltip03" className="form-label" id='confirm'>Confirm Password</label>
-    <input type="text" name='confirm' className="form-control inputclr" id="validationTooltip03" required/>
+    <label for="validationTooltip03" className="form-label">Confirm Password</label>
+    <input type="text" id='confirm' className="form-control inputclr" required/>
   </div>
     <div className="col-md-12 position-relative">
     <label for="validationTooltip04" className="form-label">Designation</label>
-    <select name='Designation' className="form-select inputclr" id="validationTooltip04" required>
+    <select id='Designation' className="form-select inputclr" required>
       <option selected disabled value="">Select your Designation</option>
       <option value="Project Manager">Project Manager</option>
       <option value="Project Lead">Project Lead</option>
@@ -159,7 +186,7 @@ function Signup(props) {
   </div>
   <div className="col-md-12 position-relative">
     <label for="validationTooltip04" className="form-label">Gender</label>
-    <select name='gender' className="form-select inputclr" id="validationTooltip04" required>
+    <select id='gender' className="form-select inputclr" required>
       <option selected disabled value="">Choose Your gender</option>
       <option value="Male">Male</option>
       <option value="Female">Female</option>
@@ -183,7 +210,7 @@ function Signup(props) {
    
   </div>
 </div>
-       </div>
+       </div>)
     );
 }
 

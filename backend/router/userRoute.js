@@ -9,12 +9,9 @@ const route = express.Router();
 
 route.post('/signup',userController.signup);
 
+route.post('/isUser', userController.isAlreadyaUser);
 
-route.post('/login', [
-    body('email').isEmail(),
-    body('password').isLength({min: 3}),
-    body('type').notEmpty()
-],userController.login);
+route.post('/login',userController.login);
 
 
 route.use(nullRouteController.nullRouteController);
