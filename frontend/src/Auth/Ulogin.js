@@ -68,19 +68,19 @@ class Login extends React.Component{
      </div>
      <label for="inputPassword" className="col-sm-2 col-form-label">Login As</label>
   <div class="form-check">
-  <input value="Project Manager" class="form-check-input" type="radio" name="flexRadioDefault" id="manager"/>
+  <input value="Project Manager" class="form-check-input" type="radio" name="flexRadioDefault" id="manager"/>&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault1">
     Project Manager
   </label>
 </div>
 <div class="form-check">
-  <input value="Team Leader" class="form-check-input" type="radio" name="flexRadioDefault" id="leader" />
+  <input value="Team Leader" class="form-check-input" type="radio" name="flexRadioDefault" id="leader" />&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault2">
    Team Leader
   </label>
  </div>
  <div class="form-check">
-  <input value="Team Member" class="form-check-input" type="radio" name="flexRadioDefault" id="user"/>
+  <input value="Team Member" class="form-check-input" type="radio" name="flexRadioDefault" id="user"/>&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault3">
     Team Member
   </label>

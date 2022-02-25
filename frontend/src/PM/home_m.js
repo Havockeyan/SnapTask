@@ -31,20 +31,20 @@ class Home_m extends React.Component
                 <br/>
                 <br/>
               
-  <div className="row">
-    <div className="col-6 col-sm-3">
+  <div className="home row">
+    <div className="homecol col-6 col-sm-3">
         <h5>Project Title: </h5>
         <h5>Created Date: </h5>
         <h5>Model: </h5>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <div className="col-6 col-sm-3">
+    <div className="homecol col-6 col-sm-3">
         <h5>Project Title: </h5>
         <h5>Created Date: </h5>
         <h5>Model: </h5>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <div className="col-6 col-sm-3">
+    <div className="homecol col-6 col-sm-3">
         <h5>Project Title: </h5>
         <h5>Created Date: </h5>
         <h5>Model: </h5>
