@@ -5,19 +5,18 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
-const nanoid = require('nanoid').nanoid;
 const dotenv = require('dotenv');
 dotenv.config();
 
 //normal_import
 const userRoute = require('./router/userRoute');
 const nullRouteHandler = require('./controller/nullRouteController');
+const compression = require('compression');
 
 const app = express();
 
 //morgan for loging
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 app.use(morgan('combined',{
   stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
 }));
@@ -25,34 +24,7 @@ app.use(morgan('combined',{
 //bodyparser
 app.use(bodyParser.json());
 
-//file storage for multer
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      if(file.originalname){
-        cb(null, 'images');
-      }
-  },
-  filename: (req, file, cb) => {
-    const fileName = nanoid() + '-' + file.originalname;
-    cb(null, fileName);
-  }
-});
-
-//file filter
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/jpeg' ||
-    file.mimetype === 'application/pdf'
-  ) {
-    console.log('file found');
-    cb(null, true);
-  } else {
-    console.log('file not found');
-    cb(null, false);
-  }
-}
+app.use(compression());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
@@ -67,14 +39,14 @@ app.use((req, res, next) => {
     next();
   });
 
-  app.use(multer({fileFilter: fileFilter, storage: fileStorage}).single('image'));
+  // app.use(multer({fileFilter: fileFilter, storage: fileStorage}).single('image'));
 
   //user routes
   app.use('/user', userRoute);
 
   //error handling route
   app.use((error, req, res, next) => {
-    console.log(error);
+    //console.log(error);
     const message = error.message || "The url is not correct check it";
     const status = error.statusCode || 400;
     const data = error.data || {url: req.url, method: req.method}
@@ -91,10 +63,10 @@ app.use((req, res, next) => {
 //connecting mongodb
 mongoose.connect(process.env.URI.toString())
 .then(() => {
-    console.log('mongo db connected');
+    //console.log('mongo db connected');
     app.listen(process.env.PORT);
-    console.log(`listining in ${process.env.PORT}`);
+    //console.log(`listining in ${process.env.PORT}`);
 })
 .catch(err => {
-    console.log(err);
+    //console.log(err);
 })

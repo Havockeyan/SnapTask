@@ -6,7 +6,7 @@ const validate = (formData) => {
     var passw=  /^[A-Za-z]\w{7,14}$/;
 
     for(var pair of formData.entries()){
-        // console.log(pair[0] , pair[1]);
+        // //console.log(pair[0] , pair[1]);
         if(pair[0] === 'undefined'){
             // alert(pair[0] + "is not Defined");
             toast.error(`${pair[0]} is not defined`.toString(), {
