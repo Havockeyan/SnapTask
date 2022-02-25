@@ -1,5 +1,8 @@
 import React from "react";
 import '../Auth/ulogin.css'
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 class Login extends React.Component{
 
@@ -38,7 +41,10 @@ class Login extends React.Component{
         if(result.token){
           localStorage.setItem('token', result.token);
           this.props.nav('/home_m');
+          toast.success('Welcome User!',{autoClose:3000});
         }
+        else
+          toast.error('Authentication Failed!',{autoClose:3000});
       })
 
     }

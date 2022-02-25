@@ -6,7 +6,7 @@ class Navbar_m extends React.Component
     render(){
         return(
             <div id="mainnav">
-              <nav id="nav" className="navbar navbar-expand-md navbar-light bg-light">
+              <nav id="nav" className="navbar navbar-expand-sm navbar-dark bg-dark">
   <div className="container-fluid">
     <a className="navbar-brand" href="#"><span className="span">SnapTask</span></a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
