@@ -19,12 +19,12 @@
    #main{
        max-width: 100%;
        left: 0;
-       margin-left: 0;
-       margin-right: 0;
+       margin-left: 3%;
+       margin-right: 3%;
    }
    #para{
-       padding-right: -10%;
-       margin-left: -10%;
+       padding-right: -5%;
+       margin-left: -4%;
    }
    #head{
        text-align: center;

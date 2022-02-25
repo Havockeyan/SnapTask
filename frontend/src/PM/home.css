@@ -1,0 +1,37 @@
+.dark-mode {
+    background-color: #303133;
+    color: white;
+  }
+  .lab{
+    font-Size:20px;margin-Left:-3%;
+    font-weight: bold;
+  }
+  .homecol{
+    background-color: rgb(230, 190, 16);
+    padding: 10px;
+    box-shadow: 2px 4px 8px #4e4e4e;
+    transition: transform .3s;
+    border-radius: 5px;
+  }
+  h5{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  .col-6:hover{
+    transform: scale(1.1);
+  }
+  .home{
+    margin-left: 14%;
+  }
+@media screen and (max-width:765px) {
+  .lab{
+    margin-left: -10%;
+  }
+ .form-check-input{
+   position: relative;
+   left: 4%;
+ }
+ .col-6{
+   width: 85%;
+   margin-bottom: 8%;
+ }
+}

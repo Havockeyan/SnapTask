@@ -1,10 +1,16 @@
 #mainnav{
-    box-shadow: 2px 4px 10px #dad8d8;
+    box-shadow: 2px 4px 10px #131313;
 }
+
 .span{
-    color: orangered;
-    font-size: 23px;
+    color: rgb(81, 255, 0);
+    font-size: 22px;
+    font-weight: bolder;
+}
+.nav-link{
+    font-size: 16px;
 }
 .nav-link:hover{
-    border-bottom: 2px solid orangered;
+    border-bottom: 2px solid rgb(81, 255, 0);
+    font-weight: bold;
 }

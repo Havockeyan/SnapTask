@@ -1,7 +1,10 @@
 import React from "react";
+import '../Auth/ulogin.css'
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 import '../Auth/ulogin.css';
 import {ToastContainer ,toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 class Login extends React.Component{
 
@@ -50,18 +53,10 @@ class Login extends React.Component{
         if(result.token){
           localStorage.setItem('token', result.token);
           this.props.nav('/home_m');
-        }else{
-          toast.error('The password or the email is wrong', {
-            position: "top-center",
-              autoClose: 10000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-        });
-          this.setState({loading: false});
+          toast.success('Welcome User!',{autoClose:3000});
         }
+        else
+          toast.error('Authentication Failed!',{autoClose:3000});
       })
 
     }
@@ -104,19 +99,19 @@ class Login extends React.Component{
      </div>
      <label for="inputPassword" className="col-sm-2 col-form-label">Login As</label>
   <div class="form-check">
-  <input value="Project Manager" class="form-check-input" type="radio" name="flexRadioDefault" id="manager"/>
+  <input value="Project Manager" class="form-check-input" type="radio" name="flexRadioDefault" id="manager"/>&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault1">
     Project Manager
   </label>
 </div>
 <div class="form-check">
-  <input value="Team Leader" class="form-check-input" type="radio" name="flexRadioDefault" id="leader" />
+  <input value="Team Leader" class="form-check-input" type="radio" name="flexRadioDefault" id="leader" />&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault2">
    Team Leader
   </label>
  </div>
  <div class="form-check">
-  <input value="Team Member" class="form-check-input" type="radio" name="flexRadioDefault" id="user"/>
+  <input value="Team Member" class="form-check-input" type="radio" name="flexRadioDefault" id="user"/>&nbsp;&nbsp;
   <label class="form-check-label" for="flexRadioDefault3">
     Team Member
   </label>
