@@ -1,6 +1,8 @@
 import React from 'react';
 import './signup.css'
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
+import {ToastContainer ,toast} from "react-toastify";
 import validate from './validate';
 
 function Signup(props) {
@@ -38,7 +40,7 @@ function Signup(props) {
       },
     };
 
-    const signUpHandler = async () => {
+    const signUpHandler = () => {
       setState({loading: true});
       //todo signup stuffs.
       const formData = new FormData();
@@ -47,37 +49,72 @@ function Signup(props) {
       formData.append('lastName', document.getElementById('lastName').value);
       formData.append('userName', document.getElementById('userName').value);
       formData.append('password',document.getElementById('password').value);
+      formData.append('conform', document.getElementById('confirm').value);
       formData.append('email', document.getElementById('email').value);
       formData.append('Designation',document.getElementById('Designation').value);
       formData.append('gender', document.getElementById('gender').value);
 
-    //   for (var pair of formData.entries()) {
-    //     console.log(pair+ ', ' + pair[1]); 
-    // }
+      const newFormdata = new FormData();
+      newFormdata.append('email', formData.get('email'));
+      newFormdata.append('userName', formData.get('userName'));
+      var goAhead = true;
+
+       //checking if the password are same
+       console.log(formData.get('password').toString() === formData.get('conform').toString());
+    if(!(formData.get('password').toString() === formData.get('conform').toString())){
+      toast.error('The password and the conform password should be same', {
+          position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+      });
+      setState({loading: false});
+      return false;
+  }
 
       //check if it is already exists
       fetch('http://localhost:8080/user/isUser',{
         method: 'POST',
-        body: JSON.stringify({
-            userName: formData.get('userName'),
-            email: formData.get('email')
-        })
+        body: newFormdata
     })
     .then(response => {
         return response.json();
     })
     .then(result => {
         if(result.hasUser === true){
-            alert('User with this username already exists');
-            return false;
+            // alert('User with this username already exists');
+            toast.error('User with this username already exists', {
+              position: "top-center",
+              autoClose: 10000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+            goAhead = false;
+            setState({loading: false});
         }
         if(result.hasEmail === true){
-          alert('User with this email already exists');
-          return false;
+          // alert('User with this email already exists');
+          toast.error('User with this email already exists', {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+          goAhead = false;
+          setState({loading: false});
       }
-        return true;
+        // return true;
     })
-    .then((goAhead) => {
+    .then(() => {
         if(goAhead){
           
       if(validate(formData)){
@@ -95,17 +132,32 @@ function Signup(props) {
     })
       
     };
-
-    // const onChangeHandler = (e, filed) => {
-    //     console.log(e.target.value);
-    // };
     
     const removeSelectedImage = () => {
       setState({selectedImage: ""});
     };
   return(
-    loading ? (<div>loading</div>) :
+    loading ? (<div><ToastContainer position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover/>
+      <img alt='nothing' src={require('./../asert/loading.gif')} height="100%"  width="100%"/>
+    </div>) :
       (<div>
+        <ToastContainer position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover/>
            <div className='head'><h1 className='texthead'>SIGNUP FORM</h1></div>
            <br/>
         
@@ -169,11 +221,11 @@ function Signup(props) {
     </div>
   <div className="col-md-8 position-relative">
     <label for="validationTooltip03" className="form-label">Password</label>
-    <input type="text" id='password' className="form-control inputclr" required/>
+    <input type="password" id='password' className="form-control inputclr" required/>
   </div>
   <div className="col-md-8 position-relative">
     <label for="validationTooltip03" className="form-label">Confirm Password</label>
-    <input type="text" id='confirm' className="form-control inputclr" required/>
+    <input type="password" id='confirm' className="form-control inputclr" required/>
   </div>
     <div className="col-md-12 position-relative">
     <label for="validationTooltip04" className="form-label">Designation</label>

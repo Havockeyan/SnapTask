@@ -6,15 +6,17 @@ const jwt = require('jsonwebtoken');
 exports.isAlreadyaUser = (req, res, next) => {
     var {userName, email} = req.body;
 
-    userModel.findOne({userName: userName})
+    console.log(userName, email);
+
+    userModel.find({userName: userName})
     .then(user => {
         console.log(user);
-        if(!user){
+        if(user.length == 0){
             console.log('not found [username]');
             //check if the email already exists
-            userModel.findOne({email: email})
+            userModel.find({email: email})
             .then(user => {
-                if(!user){
+                if(user.length == 0){
                     res.status(400).json({
                         message: "User not Found",
                         hasEmail: false,
@@ -79,11 +81,11 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    var {email, password, type} = req.body;
+    var {email, password, Designation} = req.body;
     let loadedUser = "";
-    console.log(password);
+    console.log(email, password, Designation);
 
-    userModel.findOne({email: email, type: type})
+    userModel.findOne({email: email, Designation: Designation})
     .then(user => {
         console.log(user);
         if(!user){
