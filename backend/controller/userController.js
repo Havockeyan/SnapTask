@@ -6,13 +6,13 @@ const jwt = require('jsonwebtoken');
 exports.isAlreadyaUser = (req, res, next) => {
     var {userName, email} = req.body;
 
-    console.log(userName, email);
+    //console.log(userName, email);
 
     userModel.find({userName: userName})
     .then(user => {
-        console.log(user);
+        //console.log(user);
         if(user.length == 0){
-            console.log('not found [username]');
+            //console.log('not found [username]');
             //check if the email already exists
             userModel.find({email: email})
             .then(user => {
@@ -23,7 +23,7 @@ exports.isAlreadyaUser = (req, res, next) => {
                         hasUser: false
                     });
                 }else{
-                    console.log('found [email]');
+                    //console.log('found [email]');
                     res.status(200).json({
                         message: "User found",
                         hasEmail: true
@@ -31,7 +31,7 @@ exports.isAlreadyaUser = (req, res, next) => {
                 }
             })
         }else{
-            console.log('found [username]');
+            //console.log('found [username]');
             res.status(200).json({
                 message: "User found",
                 hasUser: true
@@ -39,7 +39,7 @@ exports.isAlreadyaUser = (req, res, next) => {
         }
     })
     .catch(err => {
-        console.log(err);
+        //console.log(err);
          if(!err.statusCode){
              err.statusCode = 400;
          }
@@ -50,7 +50,7 @@ exports.isAlreadyaUser = (req, res, next) => {
 exports.signup = (req, res, next) => {
     var {firstName, lastName, userName, email, password, Designation, gender} = req.body;
     var imgurl = req.file.filename;
-    console.log(req.body.firstName);
+    //console.log(req.body.firstName);
 
     bcrypt.hash(password, 18)
     .then(hashedPassword => {
@@ -72,7 +72,7 @@ exports.signup = (req, res, next) => {
          });
      })
      .catch(err => {
-         console.log(err);
+         //console.log(err);
          if(!err.statusCode){
              err.statusCode = 400;
          }
@@ -83,11 +83,11 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
     var {email, password, Designation} = req.body;
     let loadedUser = "";
-    console.log(email, password, Designation);
+    //console.log(email, password, Designation);
 
     userModel.findOne({email: email, Designation: Designation})
     .then(user => {
-        console.log(user);
+        //console.log(user);
         if(!user){
             const error = new Error('user not found');
             throw error;

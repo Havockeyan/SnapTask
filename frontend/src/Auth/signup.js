@@ -60,7 +60,7 @@ function Signup(props) {
       var goAhead = true;
 
        //checking if the password are same
-       console.log(formData.get('password').toString() === formData.get('conform').toString());
+       //console.log(formData.get('password').toString() === formData.get('conform').toString());
     if(!(formData.get('password').toString() === formData.get('conform').toString())){
       toast.error('The password and the conform password should be same', {
           position: "top-center",
@@ -124,7 +124,7 @@ function Signup(props) {
       })
       .then(response => { return response.json()})
       .then(result => {
-        console.log(result);
+        //console.log(result);
         props.nav('/');
       });
       }

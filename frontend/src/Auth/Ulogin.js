@@ -3,6 +3,8 @@ import '../Auth/ulogin.css'
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure()
+import '../Auth/ulogin.css';
+import {ToastContainer ,toast} from "react-toastify";
 
 class Login extends React.Component{
 
@@ -14,6 +16,16 @@ class Login extends React.Component{
     }
 
     loginHandler = () => {
+      this.setState({loading: true});
+      toast.info('It may take some time maximum 30 sec depending on your network', {
+        position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+    });
       const formData = new FormData();
       formData.append('email', document.getElementById('email').value);
       formData.append('password', document.getElementById('password').value);
@@ -37,7 +49,7 @@ class Login extends React.Component{
         return response.json();
       })
       .then(result => {
-        console.log(result);
+        //console.log(result);
         if(result.token){
           localStorage.setItem('token', result.token);
           this.props.nav('/home_m');
@@ -50,8 +62,27 @@ class Login extends React.Component{
     }
 
     render(){    
-        return(
+        return this.state.loading ? (<div><ToastContainer position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover/>
+      <img alt='nothing' src={require('./../asert/loading.gif')} height="100%"  width="100%"/>
+    </div>) : (
             <div>
+              <ToastContainer position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover/>
                 <h2 id="head" style={{backgroundColor:"#4a4a4a",color:"#ebd643",padding:"5px"}}>Login Page</h2>
                 <div id="main">
                 <div className="mb-4 row">
