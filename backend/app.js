@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const multer = require('multer');
+const nanoid = require('nanoid').nanoid;
 dotenv.config();
 
 //normal_import
@@ -16,15 +18,42 @@ const compression = require('compression');
 const app = express();
 
 //morgan for loging
-// app.use(morgan('combined'));
-app.use(morgan('combined',{
-  stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
-}));
+app.use(morgan('combined'));
+// app.use(morgan('combined',{
+//   stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
+// }));
 
 //bodyparser
 app.use(bodyParser.json());
 
-app.use(compression());
+//file storage for multer
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      if(file.originalname){
+        cb(null, 'images');
+      }
+  },
+  filename: (req, file, cb) => {
+    const fileName = nanoid() + '-' + file.originalname;
+    cb(null, fileName);
+  }
+});
+
+//file filter
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'application/pdf'
+  ) {
+    //console.log('file found');
+    cb(null, true);
+  } else {
+    //console.log('file not found');
+    cb(null, false);
+  }
+}
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
@@ -35,11 +64,11 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Methods',
       'OPTIONS, GET, POST, PUT, PATCH, DELETE'
     );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'Authorization');
     next();
   });
 
-  // app.use(multer({fileFilter: fileFilter, storage: fileStorage}).single('image'));
+  app.use(multer({fileFilter: fileFilter, storage: fileStorage}).single('image'));
 
   //user routes
   app.use('/user', userRoute);

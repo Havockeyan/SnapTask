@@ -15,6 +15,8 @@ function Signup(props) {
         setState({selectedImage: e.target.files[0]});
       }
     };
+
+    var goAhead = true;
     const styles = {
       container: {
         display: "flex",
@@ -40,42 +42,15 @@ function Signup(props) {
       },
     };
 
-    const signUpHandler = () => {
-      setState({loading: true});
-      //todo signup stuffs.
-      const formData = new FormData();
-      formData.append('image', selectedImage);
-      formData.append('firstName', document.getElementById('firstName').value);
-      formData.append('lastName', document.getElementById('lastName').value);
-      formData.append('userName', document.getElementById('userName').value);
-      formData.append('password',document.getElementById('password').value);
-      formData.append('conform', document.getElementById('confirm').value);
-      formData.append('email', document.getElementById('email').value);
-      formData.append('Designation',document.getElementById('Designation').value);
-      formData.append('gender', document.getElementById('gender').value);
-
-      const newFormdata = new FormData();
-      newFormdata.append('email', formData.get('email'));
-      newFormdata.append('userName', formData.get('userName'));
-      var goAhead = true;
-
-       //checking if the password are same
-       //console.log(formData.get('password').toString() === formData.get('conform').toString());
-    if(!(formData.get('password').toString() === formData.get('conform').toString())){
-      toast.error('The password and the conform password should be same', {
-          position: "top-center",
-            autoClose: 10000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-      });
-      setState({loading: false});
-      return false;
-  }
-
-      //check if it is already exists
+    const userNameHandler = (e) => {
+       const newFormdata = new FormData();
+      newFormdata.append('email', document.getElementById('email').value);
+      newFormdata.append('userName', document.getElementById('userName').value);
+      const userName = document.getElementById('userName').value;
+      const email = document.getElementById('email').value;
+      // console.log(typeof userName, typeof email);
+      if(userName !== "" && email !== ""){
+        //check if it is already exists
       fetch('http://localhost:8080/user/isUser',{
         method: 'POST',
         body: newFormdata
@@ -84,6 +59,7 @@ function Signup(props) {
         return response.json();
     })
     .then(result => {
+      console.table(result);
         if(result.hasUser === true){
             // alert('User with this username already exists');
             toast.error('User with this username already exists', {
@@ -114,7 +90,85 @@ function Signup(props) {
       }
         // return true;
     })
-    .then(() => {
+      }
+    }
+
+    const signUpHandler = () => {
+      //todo signup stuffs.
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+      formData.append('firstName', document.getElementById('firstName').value);
+      formData.append('lastName', document.getElementById('lastName').value);
+      formData.append('userName', document.getElementById('userName').value);
+      formData.append('password',document.getElementById('password').value);
+      formData.append('conform', document.getElementById('confirm').value);
+      formData.append('email', document.getElementById('email').value);
+      formData.append('Designation',document.getElementById('Designation').value);
+      formData.append('gender', document.getElementById('gender').value);
+
+      // const newFormdata = new FormData();
+      // newFormdata.append('email', formData.get('email'));
+      // newFormdata.append('userName', formData.get('userName'));
+      // var goAhead = true;
+
+       //checking if the password are same
+       //console.log(formData.get('password').toString() === formData.get('conform').toString());
+    if(!(formData.get('password').toString() === formData.get('conform').toString())){
+      toast.error('The password and the conform password should be same', {
+          position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+      });
+      setState({loading: false});
+      return false;
+  }
+
+  
+  setState({loading: true});
+
+    //   //check if it is already exists
+    //   fetch('http://localhost:8080/user/isUser',{
+    //     method: 'POST',
+    //     body: newFormdata
+    // })
+    // .then(response => {
+    //     return response.json();
+    // })
+    // .then(result => {
+    //     if(result.hasUser === true){
+    //         // alert('User with this username already exists');
+    //         toast.error('User with this username already exists', {
+    //           position: "top-center",
+    //           autoClose: 10000,
+    //           hideProgressBar: false,
+    //           closeOnClick: true,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           });
+    //         goAhead = false;
+    //         setState({loading: false});
+    //     }
+    //     if(result.hasEmail === true){
+    //       // alert('User with this email already exists');
+    //       toast.error('User with this email already exists', {
+    //         position: "top-center",
+    //         autoClose: 10000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         });
+    //       goAhead = false;
+    //       setState({loading: false});
+    //   }
+    //     // return true;
+    // })
         if(goAhead){
           
       if(validate(formData)){
@@ -128,8 +182,9 @@ function Signup(props) {
         props.nav('/');
       });
       }
+        }else{
+          //do something if not valid.
         }
-    })
       
     };
     
@@ -221,7 +276,7 @@ function Signup(props) {
     </div>
   <div className="col-md-8 position-relative">
     <label for="validationTooltip03" className="form-label">Password</label>
-    <input type="password" id='password' className="form-control inputclr" required/>
+    <input type="password" onFocus={userNameHandler} id='password' className="form-control inputclr" required/>
   </div>
   <div className="col-md-8 position-relative">
     <label for="validationTooltip03" className="form-label">Confirm Password</label>

@@ -2,9 +2,9 @@ import React from "react";
 import '../Auth/ulogin.css'
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-toast.configure()
 import '../Auth/ulogin.css';
-import {ToastContainer ,toast} from "react-toastify";
+import {ToastContainer} from "react-toastify";
+toast.configure()
 
 class Login extends React.Component{
 
@@ -16,7 +16,6 @@ class Login extends React.Component{
     }
 
     loginHandler = () => {
-      this.setState({loading: true});
       toast.info('It may take some time maximum 30 sec depending on your network', {
         position: "top-center",
           autoClose: 10000,
@@ -40,6 +39,11 @@ class Login extends React.Component{
         }
       }
 
+      console.log(formData);
+
+      this.setState({loading: true});
+
+
       //api call
       fetch('http://localhost:8080/user/login',{
         method: 'POST',
@@ -52,11 +56,12 @@ class Login extends React.Component{
         //console.log(result);
         if(result.token){
           localStorage.setItem('token', result.token);
-          this.props.nav('/home_m');
           toast.success('Welcome User!',{autoClose:3000});
+          this.props.nav('/home_m');
         }
         else
           toast.error('Authentication Failed!',{autoClose:3000});
+          this.setState({loading: false});
       })
 
     }
