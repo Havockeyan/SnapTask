@@ -64,7 +64,7 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Methods',
       'OPTIONS, GET, POST, PUT, PATCH, DELETE'
     );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type , Authorization');
     next();
   });
 
@@ -86,7 +86,7 @@ app.use((req, res, next) => {
   });
 
   //other unmatched route handler
-  app.use(nullRouteHandler.nullRouteController);
+  // app.use(nullRouteHandler.nullRouteController);
 
 
 //connecting mongodb

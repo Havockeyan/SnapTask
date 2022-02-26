@@ -16,54 +16,71 @@ class Login extends React.Component{
     }
 
     loginHandler = () => {
-      toast.info('It may take some time maximum 30 sec depending on your network', {
-        position: "top-center",
-          autoClose: 10000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-    });
-      const formData = new FormData();
-      formData.append('email', document.getElementById('email').value);
-      formData.append('password', document.getElementById('password').value);
-      //checking for the radio button
-      if(document.getElementById('manager').checked){
-        formData.append('Designation', document.getElementById('manager').value);
-      }else{
-        if(document.getElementById('leader').checked){
-          formData.append('Designation', document.getElementById('leader').value);
-        }else{
-          formData.append('Designation', document.getElementById('user').value);
-        }
-      }
+      
+      // const formData = new FormData();
+      // formData.append('email', document.getElementById('email').value);
+      // formData.append('password', document.getElementById('password').value);
+      // //checking for the radio button
+      // if(document.getElementById('manager').checked){
+      //   formData.append('Designation', document.getElementById('manager').value);
+      // }else{
+      //   if(document.getElementById('leader').checked){
+      //     formData.append('Designation', document.getElementById('leader').value);
+      //   }else{
+      //     formData.append('Designation', document.getElementById('user').value);
+      //   }
+      // }
 
-      console.log(formData);
+      // console.log(formData);
 
-      this.setState({loading: true});
+      // this.setState({loading: true});
 
-
+     
       //api call
+      var today = new Date();
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+console.log(time , "[before fetch]");
       fetch('http://localhost:8080/user/login',{
         method: 'POST',
-        body: formData
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+          Designation: "Project Manager"
+        })
       })
       .then(response => {
+        toast.info('It may take some time maximum 30 sec depending on your network', {
+          position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+      });
+        console.time('handler');
+          today = new Date();
+         time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+console.log(time, "[after response]");
         return response.json();
       })
       .then(result => {
         //console.log(result);
         if(result.token){
           localStorage.setItem('token', result.token);
-          toast.success('Welcome User!',{autoClose:3000});
+          // toast.success('Welcome User!',{autoClose:3000});
           this.props.nav('/home_m');
         }
-        else
+        else{
           toast.error('Authentication Failed!',{autoClose:3000});
           this.setState({loading: false});
+        }
+        console.timeEnd('handler');
       })
-
+      
     }
 
     render(){    

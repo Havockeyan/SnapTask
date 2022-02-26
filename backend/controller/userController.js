@@ -52,7 +52,7 @@ exports.signup = (req, res, next) => {
     var imgurl = req.file.filename;
     //console.log(req.body.firstName);
 
-    bcrypt.hash(password, 18)
+    bcrypt.hash(password, 10)
     .then(hashedPassword => {
         const user = new userModel({
             firstName: firstName,
@@ -81,6 +81,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    console.time('login');
     var {email, password, Designation} = req.body;
     let loadedUser = "";
     console.log(email, password, Designation);
@@ -93,9 +94,15 @@ exports.login = (req, res, next) => {
             throw error;
         }
         loadedUser = user;
+        var today = new Date();
+ time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+console.log(time, "[before bcryp]");
         return bcrypt.compare(password, loadedUser.password);
     })
     .then(isEqual => {
+        var today = new Date();
+        time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        console.log(time, "[after bcryp]");
         if(!isEqual){
             const error = new Error('The Username or Password is inCorrect');
             error.statusCode = 400;
@@ -113,6 +120,9 @@ exports.login = (req, res, next) => {
             message: "Login succesfull",
             token: token
         });
+         today = new Date();
+ time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+console.log(time, "[after token]");
     })
     .catch(err => {
         if(!err.statusCode){
@@ -120,4 +130,5 @@ exports.login = (req, res, next) => {
         }
         next(err);
     })
+    console.timeEnd('login');
 }

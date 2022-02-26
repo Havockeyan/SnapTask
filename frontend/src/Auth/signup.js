@@ -73,6 +73,7 @@ function Signup(props) {
               });
             goAhead = false;
             setState({loading: false});
+            return false;
         }
         if(result.hasEmail === true){
           // alert('User with this email already exists');
@@ -87,6 +88,7 @@ function Signup(props) {
             });
           goAhead = false;
           setState({loading: false});
+          return false
       }
         // return true;
     })
