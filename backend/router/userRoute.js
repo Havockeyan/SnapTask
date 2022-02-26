@@ -1,5 +1,4 @@
 const express = require('express');
-const multerhelper = require('./../multer-helper');
 
 const userController = require('./../controller/userController');
 const nullRouteController = require('./../controller/nullRouteController');

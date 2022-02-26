@@ -84,32 +84,23 @@ exports.login = (req, res, next) => {
     console.time('login');
     var {email, password, Designation} = req.body;
     let loadedUser = "";
-    console.log(email, password, Designation);
+    // console.log(email, password, Designation);
 
     userModel.findOne({email: email, Designation: Designation})
     .then(user => {
-        console.log(user);
+        // console.log(user);
         if(!user){
             const error = new Error('user not found');
             throw error;
         }
         loadedUser = user;
-        var today = new Date();
- time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-console.log(time, "[before bcryp]");
         return bcrypt.compare(password, loadedUser.password);
     })
     .then(isEqual => {
-        var today = new Date();
-        time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        console.log(time, "[after bcryp]");
         if(!isEqual){
             const error = new Error('The Username or Password is inCorrect');
             error.statusCode = 400;
             throw error;
-            // res.status(400).json({
-            //     message: "The username or password is not Correct."
-            // });
         }
 
         const token = jwt.sign({
@@ -120,9 +111,6 @@ console.log(time, "[before bcryp]");
             message: "Login succesfull",
             token: token
         });
-         today = new Date();
- time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-console.log(time, "[after token]");
     })
     .catch(err => {
         if(!err.statusCode){
