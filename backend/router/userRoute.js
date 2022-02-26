@@ -14,6 +14,6 @@ route.post('/isUser', userController.isAlreadyaUser);
 route.post('/login',userController.login);
 
 
-// route.use(nullRouteController.nullRouteController);
+route.use(nullRouteController.nullRouteController);
 
 module.exports = route;
