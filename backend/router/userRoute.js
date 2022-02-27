@@ -1,5 +1,4 @@
 const express = require('express');
-const multerhelper = require('./../multer-helper');
 
 const userController = require('./../controller/userController');
 const nullRouteController = require('./../controller/nullRouteController');
@@ -7,7 +6,7 @@ const nullRouteController = require('./../controller/nullRouteController');
 const route = express.Router();
 
 
-route.post('/signup',multerhelper ,userController.signup);
+route.post('/signup' ,userController.signup);
 
 route.post('/isUser', userController.isAlreadyaUser);
 

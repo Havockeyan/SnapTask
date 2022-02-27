@@ -52,7 +52,7 @@ exports.signup = (req, res, next) => {
     var imgurl = req.file.filename;
     //console.log(req.body.firstName);
 
-    bcrypt.hash(password, 18)
+    bcrypt.hash(password, 10)
     .then(hashedPassword => {
         const user = new userModel({
             firstName: firstName,
@@ -81,13 +81,14 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    console.time('login');
     var {email, password, Designation} = req.body;
     let loadedUser = "";
-    console.log(email, password, Designation);
+    // console.log(email, password, Designation);
 
     userModel.findOne({email: email, Designation: Designation})
     .then(user => {
-        console.log(user);
+        // console.log(user);
         if(!user){
             const error = new Error('user not found');
             throw error;
@@ -100,9 +101,6 @@ exports.login = (req, res, next) => {
             const error = new Error('The Username or Password is inCorrect');
             error.statusCode = 400;
             throw error;
-            // res.status(400).json({
-            //     message: "The username or password is not Correct."
-            // });
         }
 
         const token = jwt.sign({
@@ -120,4 +118,5 @@ exports.login = (req, res, next) => {
         }
         next(err);
     })
+    console.timeEnd('login');
 }

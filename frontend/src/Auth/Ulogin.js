@@ -16,15 +16,7 @@ class Login extends React.Component{
     }
 
     loginHandler = () => {
-      toast.info('It may take some time maximum 30 sec depending on your network', {
-        position: "top-center",
-          autoClose: 10000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-    });
+      
       const formData = new FormData();
       formData.append('email', document.getElementById('email').value);
       formData.append('password', document.getElementById('password').value);
@@ -39,17 +31,26 @@ class Login extends React.Component{
         }
       }
 
-      console.log(formData);
+      // console.log(formData);
 
-      this.setState({loading: true});
+      // this.setState({loading: true});
 
-
+     
       //api call
       fetch('http://localhost:8080/user/login',{
         method: 'POST',
         body: formData
       })
       .then(response => {
+        toast.info('It may take some time maximum 30 sec depending on your network', {
+          position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+      });
         return response.json();
       })
       .then(result => {
@@ -59,11 +60,12 @@ class Login extends React.Component{
           toast.success('Welcome User!',{autoClose:3000});
           this.props.nav('/home_m');
         }
-        else
+        else{
           toast.error('Authentication Failed!',{autoClose:3000});
           this.setState({loading: false});
+        }
       })
-
+      
     }
 
     render(){    

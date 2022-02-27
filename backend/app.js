@@ -13,15 +13,15 @@ dotenv.config();
 //normal_import
 const userRoute = require('./router/userRoute');
 const nullRouteHandler = require('./controller/nullRouteController');
-const compression = require('compression');
+// const compression = require('compression');
 
 const app = express();
 
 //morgan for loging
 app.use(morgan('combined'));
-// app.use(morgan('combined',{
-//   stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
-// }));
+app.use(morgan('combined',{
+  stream: fs.createWriteStream(process.env.LOGFILEPATH.toString(), {flags: 'a'})
+}));
 
 //bodyparser
 app.use(bodyParser.json());
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Methods',
       'OPTIONS, GET, POST, PUT, PATCH, DELETE'
     );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type , Authorization');
     next();
   });
 
@@ -97,5 +97,5 @@ mongoose.connect(process.env.URI.toString())
     //console.log(`listining in ${process.env.PORT}`);
 })
 .catch(err => {
-    //console.log(err);
+    console.log(err);
 })
