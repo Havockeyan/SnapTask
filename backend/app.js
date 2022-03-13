@@ -13,6 +13,7 @@ dotenv.config();
 //normal_import
 const userRoute = require('./router/userRoute');
 const nullRouteHandler = require('./controller/nullRouteController');
+const projectRoute = require('./router/projectRoute');
 // const compression = require('compression');
 
 const app = express();
@@ -29,9 +30,13 @@ app.use(bodyParser.json());
 //file storage for multer
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
+    if(file.mimetype === 'application/pdf' && req.body.Documents){
+      cb(null,'documents');
+    }else{
       if(file.originalname){
         cb(null, 'images');
       }
+    }
   },
   filename: (req, file, cb) => {
     const fileName = nanoid() + '-' + file.originalname;
@@ -56,6 +61,8 @@ const fileFilter = (req, file, cb) => {
 }
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/documents', express.static(path.join(__dirname, 'documents')));
+
 
 //cors
 app.use((req, res, next) => {
@@ -72,6 +79,7 @@ app.use((req, res, next) => {
 
   //user routes
   app.use('/user', userRoute);
+  app.use('/api',projectRoute);
 
   //error handling route
   app.use((error, req, res, next) => {
@@ -92,9 +100,9 @@ app.use((req, res, next) => {
 //connecting mongodb
 mongoose.connect(process.env.URI.toString())
 .then(() => {
-    //console.log('mongo db connected');
+    console.log('mongo db connected');
     app.listen(process.env.PORT);
-    //console.log(`listining in ${process.env.PORT}`);
+    console.log(`listining in ${process.env.PORT}`);
 })
 .catch(err => {
     console.log(err);
